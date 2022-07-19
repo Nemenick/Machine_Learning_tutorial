@@ -14,11 +14,12 @@ def categorical(vettore):
 """
 
 (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
-(y_train, ytest) = (to_categorical(y_train), to_categorical(y_test))
+(y_train, y_test) = (to_categorical(y_train), to_categorical(y_test))
 
 (x_train, x_test) = (x_train.reshape(60000, 28*28), x_test.reshape(len(x_test), 28*28))
 model = keras.models.Sequential([
     Dense(64, activation="relu"),
+    Dense(32, activation="relu"),
     Dense(10, activation="softmax")
 ])
 
@@ -26,17 +27,28 @@ model.compile(optimizer="adam",
     loss="categorical_crossentropy",
     metrics=['accuracy'])
 
-storia = model.fit(x_train, y_train, batch_size=32, epochs=1)
+storia = model.fit(x_train, y_train, batch_size=32, epochs=10)
 
 print(storia.history)
 
-predizione = model.predict(x_test)
-print(predizione.shape)
-# print("predict", predizione)
-dizionario = {"predizione": predizione, "test_label": y_test}
+predizione = model.evaluate(x_test, y_test)
+print(len(predizione), y_test.shape, type(predizione), type(y_test))
+print("predict", predizione)
+dizionario = {}
+"""yt = [[0 for _ in range(len(y_test))] for __ in range(len(y_test[0]))]
+pt = [[0 for j in range(len(predizione))] for i in range(len(predizione[0]))]
+
+for i in range(len(y_test)):
+    for j in range(len(y_test[0])):
+        yt[j][i] = y_test[i][j]
+        pt[j][i] = predizione[i][j]
+
+for i in range(len(pt)):
+    dizionario["pred_" + str(i)] = pt[i]
+for i in range(len(yt)):
+    dizionario["y_" + str(i)] = yt[i]
 print(dizionario)
 dizionario = pandas.DataFrame.from_dict(dizionario)
-dizionario.to_csv("Eccolo.csv")
+dizionario.to_csv("Eccolo.csv",index=False)"""
 
 
-print(model.predict(x_test))
