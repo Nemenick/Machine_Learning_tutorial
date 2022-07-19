@@ -19,7 +19,7 @@ def categorical(vettore):
 (x_train, x_test) = (x_train.reshape(60000, 28*28), x_test.reshape(len(x_test), 28*28))
 model = keras.models.Sequential([
     Dense(64, activation="relu"),
-    Dense(32, activation="relu"),
+    Dense(16, activation="relu"),            # se è meno di 10 NON VA! (BOOTLENECK)
     Dense(10, activation="softmax")
 ])
 
