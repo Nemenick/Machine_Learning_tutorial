@@ -1,9 +1,10 @@
 import tensorflow as tf
-from tensorflow import keras
-from keras.layers import Dense, Flatten
-from keras.utils.np_utils import to_categorical
 import numpy as np
 import pandas
+from tensorflow import keras
+from keras.layers import Dense
+from keras.utils.np_utils import to_categorical
+
 
 """
 def categorical(vettore):
