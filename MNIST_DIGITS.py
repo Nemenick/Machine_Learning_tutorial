@@ -3,6 +3,7 @@ from tensorflow import keras
 from keras.layers import Dense, Flatten
 from keras.utils.np_utils import to_categorical
 import numpy as np
+import pandas
 
 """
 def categorical(vettore):
@@ -18,7 +19,24 @@ def categorical(vettore):
 (x_train, x_test) = (x_train.reshape(60000, 28*28), x_test.reshape(len(x_test), 28*28))
 model = keras.models.Sequential([
     Dense(64, activation="relu"),
-    Dense(10, activation="relu")
+    Dense(10, activation="softmax")
 ])
+
+model.compile(optimizer="adam",
+    loss="categorical_crossentropy",
+    metrics=['accuracy'])
+
+storia = model.fit(x_train, y_train, batch_size=32, epochs=1)
+
+print(storia.history)
+
+predizione = model.predict(x_test)
+print(predizione.shape)
+# print("predict", predizione)
+dizionario = {"predizione": predizione, "test_label": y_test}
+print(dizionario)
+dizionario = pandas.DataFrame.from_dict(dizionario)
+dizionario.to_csv("Eccolo.csv")
+
 
 print(model.predict(x_test))
